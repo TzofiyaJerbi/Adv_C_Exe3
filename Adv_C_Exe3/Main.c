@@ -29,7 +29,8 @@ void PrintStack(Stack* s);
 void main()
 {
 
-	int yuserSelt, data;
+	int yuserSelt;
+	char data;
 	Stack* dugma;
 	initStack(&dugma);
 	while (1)
@@ -45,7 +46,7 @@ To fix word with # chus 3 \n To delaet data chus 4\n To print stack chus 5 \n");
 		case 1:
 		{
 			printf("get leter to stack");
-			scanf("%d", &data);
+			scanf("%c", &data);
 			push(&dugma, data);
 			break;
 		}
