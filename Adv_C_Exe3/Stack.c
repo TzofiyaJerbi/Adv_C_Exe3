@@ -175,6 +175,25 @@ int isPalindrome(Stack* s)
 
 void rotateStack(Stack* s, int n)
 {
-	// add your code here
+	if (n < 0 || n>(LongOfWord(&s)))return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
+
+	//יש לכתוב את הפונקציה בהנחה ש אנ הוא ערך במחסנית, ולבצע היפוך, אולי לולאה מקוננת?
 }
 
+int LongOfWord(Stack* s)
+{
+	int count = 0;
+	Stack* Top = (Stack*)malloc(sizeof(Stack));    //מחסניות עזר
+	if (Top == NULL) //בדיאה אם ההקצאה נכשלה
+	{
+		printf("no memory!!\n");
+		return;
+	};
+	Top->head = s->head;
+	while (Top->head != NULL)	//אורך מילה		
+	{
+		count++;
+		Top->head = Top->head->next;
+	}
+	return (count);
+}
