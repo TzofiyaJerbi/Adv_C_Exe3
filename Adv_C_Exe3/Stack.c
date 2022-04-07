@@ -131,6 +131,8 @@ void flipBetweenHashes(const char* sentence)
 
 int isPalindrome(Stack* s)
 {
+	char givLeter(charNode * Letter);
+
 	int palindrome = 1;
 	int NotPalindrome = 0;
 	if (s->head == NULL) {
@@ -139,34 +141,70 @@ int isPalindrome(Stack* s)
 	}
 
 	// îçñğéú òí àéáø àçã åîòìä
-	Stack* HelpStack;		   	 //îçñğéú òæø
-	Stack* Top; 			    	//îöáéò ìøàù
-	initStack(&HelpStack);
-	initStack(&Top);
-	Top->head = s->head;	//ìùîåø òì äøàù
-
-	while (Top->head != NULL)			//ìùéí áîçñğéú òøëéí îäøùéîä òã ùîâéòéí ìğì ìà ëåìì
+	charNode* HelpStack = (charNode*)malloc(sizeof(charNode)); // òæø
+	if (HelpStack == NULL) //áãéàä àí ää÷öàä ğëùìä
 	{
-		push(HelpStack, (Top->head->data));		// äèåô îú÷ãí ëáø áôåğ÷öéä
-		Top->head = Top->head->next;  //÷éãîğå àåú àçú ÷ãéîä
+		printf("no memory!!\n");
+		return;
+	};		                                	 //îçñğéú òæø
+	Stack* Top = (Stack*)malloc(sizeof(Stack));
+	if (Top == NULL) //áãéàä àí ää÷öàä ğëùìä
+	{
+		printf("no memory!!\n");
+		return;
+	};
+	Stack* Top2 = (Stack*)malloc(sizeof(Stack));
+	if (Top2 == NULL) //áãéàä àí ää÷öàä ğëùìä
+	{
+		printf("no memory!!\n");
+		return;
+	}; 		//îöáéòéí ìøàù
+	int namLet = 0;
+	int count = 0;
+	Top->head = (s->head);   	//èåô îöáéò ìøàù äîéìä 
+	HelpStack->next = NULL;
+	while (Top->head != NULL)	//àåøê îéìä		
+	{
+		count++;
+		Top->head = Top->head->next;
 	}
-	Top->head = s->head; // ìå÷çéí øàù îçãù
-	while (Top->head != NULL)
+
+	Top->head = s->head;
+	Top2->head = s->head;
+	for (count; count > 0; count--)			//ìòáåø àåú îääúçìä åàåú îäñåó
 	{
+		char letter = (char)malloc(sizeof(char)); if (letter == NULL)return(0);
 
-		if (!(pop(&HelpStack)) == (Top->head->data))
-			return (NotPalindrome);									 //ìäùååú ôåô îîçñğéú òæø òí øàù ãàèä àí ìà ùååä ìäçæéø 0 åìöàú îäìåìàä
+		letter = givLeter(&Top2->head);		// îáéà àåú àåú 
 
-		else
-		{
-			Top->head = Top->head->next;				 //îúáöò àí äúğàé òì àéô ìà îú÷ééí. ÷øé àåú àçøåğä ùååä ìøàùåğä åëï äìàä
+		for (int i = count; i > 0; i--) {
+			Top->head = Top->head->next;  // àåú îäñåó
+
 		}
-		return(palindrome);   //ìäçæéø 1 àí îâéòéí òã ùìá æä ÷øé ôéìğãøåí
+		if (Top->head->data = !letter) return(NotPalindrome);
+		namLet++;
+		Top->head = s->head;
+		Top2->head = s->head;
+		for (namLet; namLet != 0; namLet--) { // îöáéò òì äàåú ääáàä áîçáğéú
+			Top2->head = Top2->head->next;
+		}
 	}
-
+	return(palindrome);
 }
 
 void rotateStack(Stack* s, int n)
 {
 	// add your code here
+}
+
+char givLeter(charNode* Letter)      //îåöéàä àåú îàéáø áøùéîä.îçñğéú 
+{
+	charNode* Letter2 = (charNode*)malloc(sizeof(charNode));
+	if (Letter2 == NULL) //áãéàä àí ää÷öàä ğëùìä
+	{
+		printf("no memory!!\n");
+		return(0);
+	}
+
+	return (Letter2->data);
 }
