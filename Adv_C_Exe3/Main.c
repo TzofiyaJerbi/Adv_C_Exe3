@@ -4,5 +4,6 @@
 
 void main()
 {
-	// add your code here
+	char str[] = { "remem#reb#" };
+	flipBetweenHashes(str);
 }
