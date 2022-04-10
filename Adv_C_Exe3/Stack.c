@@ -162,27 +162,74 @@ int isPalindrome(Stack* s)
 	}
 	Top->head = s->head;
 
-	for (count; count > 0; count--) {
-		for (int Dcount = count; Dcount > 0; Dcount--) {
+	for (count; count > 0; count--)
+	{
+		for (int Dcount = (count-1 ); Dcount > 0; Dcount--) {
 			Top2->head = Top2->head->next;
 		}
 
-		if ((Top->head->data) != (Top2->head->data)) return(NotPalindrome);
+		if ((Top->head->data) != (Top2->head->data))
+			return(NotPalindrome);
 		Top->head = Top->head->next;  // מכין מיקום של אות הבאה
+		Top2->head = s->head;
 	}
 	return(palindrome);
 }
 
 void rotateStack(Stack* s, int n)
 {
-	if (n < 0 || n>(LongOfWord(&s)))return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
+	charNode* Ps = s->head;
+//	if (!(isEmptyStack(Ps))); return;
+	if (n < 0 || n>(LongOfWord(&Ps)))return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
+	
+
+
+	Stack* helpstack = (Stack*)malloc(sizeof(Stack));    //מחסנית עזר לחלקי מילה
+	if (helpstack == NULL) //בדיאה אם ההקצאה נכשלה
+	{
+		printf("no memory!!\n");
+		return;
+	};
+	initStack(&helpstack);
+
+	Stack* finalStack = (Stack*)malloc(sizeof(Stack));  // מחסנית למילה סופית מסודרת
+	if (finalStack == NULL) //בדיאה אם ההקצאה נכשלה
+	{
+		printf("no memory!!\n");
+		return;
+	};
+	initStack(&finalStack);
+
+	int partLeft =( LongOfWord(&Ps)-n);
+
+
+	for (partLeft; partLeft > 0; partLeft--)
+	{
+		push(helpstack, (pop(&Ps))); // שומר חלק פנימי של המילה
+
+	}
+	while (helpstack)
+	{
+		push(finalStack, (pop(&helpstack)));
+	}
+	while (Ps) // ראש אחר- במקום האני של המילה- ועד סוף המילה
+	{
+		push(helpstack, (pop(&Ps)));
+	}
+	while (helpstack)
+	{
+		push(finalStack, (pop(&helpstack)));
+	}
+
+	PrintStack(&Ps);
+
 
 	//יש לכתוב את הפונקציה בהנחה ש אנ הוא ערך במחסנית, ולבצע היפוך, אולי לולאה מקוננת?
 }
 
 int LongOfWord(Stack* s)
 {
-	int count = 0;
+	int count = 1; //לפחות איבר אחד במילה. אם זה אפס זה לא מגיע לפה... 
 	Stack* Top = (Stack*)malloc(sizeof(Stack));    //מחסניות עזר
 	if (Top == NULL) //בדיאה אם ההקצאה נכשלה
 	{
@@ -190,7 +237,7 @@ int LongOfWord(Stack* s)
 		return;
 	};
 	Top->head = s->head;
-	while (Top->head != NULL)	//אורך מילה		
+	while (Top->head->next)	//אורך מילה		
 	{
 		count++;
 		Top->head = Top->head->next;

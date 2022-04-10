@@ -30,13 +30,13 @@ void main()
 {
 
 	int yuserSelt;
-	char data;
+	char d;
 	Stack* dugma;
 	initStack(&dugma);
 	while (1)
 	{
-		printf("\nTo push word to stack chus 1 \n To check if is palindrome chus 2\n \
-To fix word with # chus 3 \n To delaet data chus 4\n To print stack chus 5 \n");
+		printf("\nTo push word to stack choose 1 \n To check if is palindrome choose 2\n \
+To fix word with # choose 3 \n To delaet data choose 4\n To print stack choose 5 \n for rotate World press choose 6\n");
 
 		fseek(stdin, 0, SEEK_END);
 		scanf("%d", &yuserSelt);
@@ -45,14 +45,20 @@ To fix word with # chus 3 \n To delaet data chus 4\n To print stack chus 5 \n");
 		{
 		case 1:
 		{
-			printf("get leter to stack");
-			scanf("%c", &data);
-			push(&dugma, data);
+			
+			printf("get leter to stack\n");
+			fseek(stdin, 0, SEEK_END);
+			scanf("%c", &d);
+		    push(&dugma, d);
 			break;
 		}
 		case 2:
 		{
-			isPalindrome(&dugma);
+			 int Palindrome =isPalindrome(&dugma);
+			 if (Palindrome == 1)
+				 printf("is Palindrome\n");
+			 else
+				 printf("is not Palindrome\n");
 			break;
 		}
 		case 3:
@@ -70,6 +76,14 @@ To fix word with # chus 3 \n To delaet data chus 4\n To print stack chus 5 \n");
 		case 5:
 		{
 			PrintStack(&dugma);
+			break;
+		}
+		case 6:
+		{
+			printf("select place rotate \n");
+			int n;
+			rotateStack(&dugma, (scanf("%d", &n)));
+
 			break;
 		}
 		default:
