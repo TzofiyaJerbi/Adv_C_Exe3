@@ -36,7 +36,8 @@ void main()
 	while (1)
 	{
 		printf("\nTo push word to stack choose 1 \n To check if is palindrome choose 2\n \
-To fix word with # choose 3 \n To delaet data choose 4\n To print stack choose 5 \n for rotate World press choose 6\n");
+To fix word with # choose 3 \n To delaet data choose 4\n To print stack choose 5 \n for rotate World press choose 6\n \
+to delete word from top stack choose 7\n to exit choose 8\n");
 
 		fseek(stdin, 0, SEEK_END);
 		scanf("%d", &yuserSelt);
@@ -83,8 +84,17 @@ To fix word with # choose 3 \n To delaet data choose 4\n To print stack choose 5
 			printf("select place rotate \n");
 			int n;
 			rotateStack(&dugma, (scanf("%d", &n)));
-
 			break;
+		}
+		case 7:
+		{
+			char LetterPop;
+			LetterPop = pop(&dugma);
+			printf("the letter is pop is %c", LetterPop);
+		}
+		case 8:
+		{
+			exit(1);
 		}
 		default:
 			printf("\nwrong chus try again \n ");

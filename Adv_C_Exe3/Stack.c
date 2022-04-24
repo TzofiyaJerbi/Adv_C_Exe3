@@ -178,53 +178,36 @@ int isPalindrome(Stack* s)
 
 void rotateStack(Stack* s, int n)
 {
-	charNode* Ps = s->head;
-//	if (!(isEmptyStack(Ps))); return;
-	if (n < 0 || n>(LongOfWord(&Ps)))return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
+	if ((isEmptyStack(&s))); return;
+	if (n < 0 || n>(LongOfWord(&s)))return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
 	
 
-
-	Stack* helpstack = (Stack*)malloc(sizeof(Stack));    //מחסנית עזר לחלקי מילה
-	if (helpstack == NULL) //בדיאה אם ההקצאה נכשלה
-	{
-		printf("no memory!!\n");
-		return;
-	};
+	Stack helpstack, helpstack2, finalStack;    //מחסניות עזר לחלקי מילה
+	
 	initStack(&helpstack);
-
-	Stack* finalStack = (Stack*)malloc(sizeof(Stack));  // מחסנית למילה סופית מסודרת
-	if (finalStack == NULL) //בדיאה אם ההקצאה נכשלה
-	{
-		printf("no memory!!\n");
-		return;
-	};
-	initStack(&finalStack);
-
-	int partLeft =( LongOfWord(&Ps)-n);
-
+	initStack(&helpstack2);
+	finalStack.head = s->head;
+	int partLeft =((LongOfWord(&s))-n);
 
 	for (partLeft; partLeft > 0; partLeft--)
 	{
-		push(helpstack, (pop(&Ps))); // שומר חלק פנימי של המילה
-
+		push(&helpstack, (pop(&finalStack))); // שומר חלק פנימי של המילה
 	}
-	while (helpstack)
+	while (&finalStack)
 	{
-		push(finalStack, (pop(&helpstack)));
+		push(&helpstack2, (pop(&finalStack)));
 	}
-	while (Ps) // ראש אחר- במקום האני של המילה- ועד סוף המילה
+	while (&helpstack) // ראש אחר- במקום האני של המילה- ועד סוף המילה
 	{
-		push(helpstack, (pop(&Ps)));
+		push(&finalStack, (pop(&helpstack)));
 	}
-	while (helpstack)
+	while (&helpstack2)
 	{
-		push(finalStack, (pop(&helpstack)));
+		push(&finalStack, (pop(&helpstack2)));
 	}
-
-	PrintStack(&Ps);
-
-
-	//יש לכתוב את הפונקציה בהנחה ש אנ הוא ערך במחסנית, ולבצע היפוך, אולי לולאה מקוננת?
+	s->head = finalStack.head;
+	printf("the rotate stack is:\n");
+	PrintStack(&s);
 }
 
 int LongOfWord(Stack* s)
