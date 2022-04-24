@@ -13,8 +13,9 @@
 //int isPalindrome(Stack* s);
 //void rotateStack(Stack* s, int n);
 void PrintStack(Stack* s);
-
-
+void printQueue(Queue* q);
+void mainOFstack();
+void mainOFqueue();
 //typedef struct charNode
 //{
 //	char data;
@@ -28,10 +29,37 @@ void PrintStack(Stack* s);
 
 void main()
 {
+
+	while (1)
+	{
+		printf("which mood U want to check?\n choose 1 to stack \n choose 2 to queue\n");
+		int yuserSelt;
+		scanf("%d", &yuserSelt);
+		if (yuserSelt == 1)
+			mainOFstack();
+		else
+		{
+			if (yuserSelt == 2)
+				mainOFqueue();
+
+			else
+			{
+				if ((yuserSelt != 1) || (yuserSelt != 2))
+					printf("\nwrong chus try again \n ");
+
+			}
+		}
+	}
+	
+}
+
+
+void mainOFstack()
+{
 	
 	int yuserSelt;
 	char d;
-	Stack* dugma;
+	Stack dugma;
 	initStack(&dugma);
 	while (1)
 	{
@@ -82,8 +110,9 @@ to delete word from top stack choose 7\n to exit choose 8\n");
 		case 6:
 		{
 			printf("select place rotate \n");
-			int n;
-			rotateStack(&dugma, (scanf("%d", &n)));
+			int n ;
+			scanf("%d", &n);
+			rotateStack(&dugma, n);
 			break;
 		}
 		case 7:
@@ -91,6 +120,7 @@ to delete word from top stack choose 7\n to exit choose 8\n");
 			char LetterPop;
 			LetterPop = pop(&dugma);
 			printf("the letter is pop is %c", LetterPop);
+			break;
 		}
 		case 8:
 		{
@@ -102,6 +132,78 @@ to delete word from top stack choose 7\n to exit choose 8\n");
 		}
 	}
 }
+
+
+void mainOFqueue()
+{
+	Queue myQueue;
+	while (1)
+	{
+		printf("to create \ add queue choose 1\n to delete queue choose 2\n \
+ to delete first valu choose 3\n to rotate choose 4\n \
+ to cut and replace choose 5\n to sort queue choose 6\n to print queue choose 7\n to exit choose 8\n");
+		int yuserSelt;
+		scanf("%d", &yuserSelt);
+
+		switch (yuserSelt)
+		{
+		case 1:
+		{
+			if (isEmptyQueue(&myQueue))
+				initQueue(&myQueue);
+			else
+			{
+				printf("choose data to add");
+				unsigned data;
+				scanf("%d",&data);
+				enqueue(&myQueue , data);
+			}
+			break;
+		}
+		case 2:
+		{
+			destroyQueue(&myQueue);
+			break;
+		}
+		case 3:
+		{
+			dequeue(&myQueue);
+			break;
+		}
+		case 4:
+		{
+			rotateQueue(&myQueue);
+			break;
+		}
+		case 5:
+		{
+			cutAndReplace(&myQueue);
+			break;
+		}
+		case 6:
+		{
+			sortKidsFirst(&myQueue);
+			break;
+		}
+		case 7:
+		{
+			printQueue(&myQueue);
+			break;
+		}
+		case 8:
+		{
+			exit(1);
+		}
+
+		default:
+			printf("\nwrong chus try again \n ");
+			break;
+		}
+	}
+}
+
+
+
 void PrintStack(Stack* s) {
 
 	if (s->head == NULL)
@@ -109,17 +211,38 @@ void PrintStack(Stack* s) {
 		printf("Empty stack\n");
 		return 0;
 	}
-	Stack* Top = (Stack*)malloc(sizeof(Stack));    //מצביע לראש
-	if (Top == NULL) //בדיאה אם ההקצאה נכשלה
+	
+	charNode* Top = s->head;
+	while (Top != NULL)	//	עובר אות אות ומדפיס	
 	{
-		printf("no memory!!\n");
-		return;
-	};
-	Top->head = s->head;
-	while (Top->head != NULL)	//	עובר אות אות ומדפיס	
-	{
-		printf("%c", Top->head->data);
-		Top->head = Top->head->next;
+		printf("%c", Top->data);
+		Top = Top->next;
 	}
 
 }
+
+void printQueue(Queue* q)
+{
+	if (isEmptyQueue(q))
+	{
+		printf("empti queue");
+	return;
+	}
+	else
+	{
+		Queue Qtmp;
+		initQueue(&Qtmp);
+		unsigned data;
+		while (! isEmptyQueue(q))
+		{
+			data = dequeue(q);
+			printf("%d", data);
+			enqueue(&Qtmp, data);
+		}
+		while (! isEmptyQueue(&Qtmp))
+		{
+			enqueue(q, dequeue(&Qtmp));
+		}
+	}
+
+	}

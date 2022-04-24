@@ -5,7 +5,7 @@
 #include "Queue.h"
 
 /***************** Queue ADT Implementation *****************/
-
+void printQueue(Queue* q);
 void initQueue(Queue* q)
 {
 
@@ -90,6 +90,42 @@ void rotateQueue(Queue* q) // לטפל בקוד
 	//}
 
 
+	Queue TmpQueue1;//תור עזר1
+	Queue TmpQueue2;//תור עזר 2
+	initQueue(&TmpQueue1);//אתחול התור עזר
+	initQueue(&TmpQueue2);//אתחול התור עזר2
+	//int res;//משתנה שנשמור בו את הערך שמוציאים
+
+	while (!(isEmptyQueue(q)))//כל עוד התור לא ריק
+	{
+		while (!(isEmptyQueue(&TmpQueue1)))
+		{
+			enqueue(&TmpQueue2, dequeue(&TmpQueue1));
+		}
+		enqueue(&TmpQueue1, dequeue(q));
+
+		while (!isEmptyQueue(&TmpQueue2))
+		{
+			enqueue(&TmpQueue1, dequeue(&TmpQueue2));
+		}
+		//res = dequeue(q);//הוצאת איבר ושמירת ערכו במשתנה
+		//if (isEmptyQueue (q))//בדיקה אם הגענו לאיבר האחרון ואם כן אז נכנסים
+		//{
+		//	enqueue (&TmpQueue2, res);//השמת האיבר האחרון בתור עזר השני
+			//break;//הגענו לסוף אז נצא
+		//}
+
+		//enqueue(&TmpQueue1, res);//מכניסים את הערכים לתור עזר 1
+
+	}
+	//קבלת התור החדש
+
+	while (!isEmptyQueue(&TmpQueue1))//הוצאת הערכים מתור עזר 1 והשמתם במקור
+	{
+		enqueue(q, dequeue(&TmpQueue1));
+
+	}
+
 	/*Queue s1, s2;
 	initQueue(&s1);
 	initQueue(&s2);
@@ -130,18 +166,19 @@ void cutAndReplace(Queue* q)  // לטפל בקוד
 		c++;
 		for (int i = 0; i < c / 2; i++)
 			enqueue(&s1, dequeue(&s2));
-		reverse(&s2);
+		rotateQueue(&s2);
 		for (int i = 0; i < c / 2; i++)
 			enqueue(&s2, dequeue(&s1));
 	}
 	else {
 		for (int i = 0; i < c / 2; i++)
 			enqueue(&s1, dequeue(&s2));
-		reverse(&s2);
+		rotateQueue(&s2);
 		for (int i = 0; i < c / 2; i++)
 			enqueue(&s2, dequeue(&s1));
 	}
-	print(&s2);
+	printQueue(&s2);
+	
 }
 
 void sortKidsFirst(Queue* q)

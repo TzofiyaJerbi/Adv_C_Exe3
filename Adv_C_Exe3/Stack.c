@@ -50,7 +50,7 @@ char pop(Stack* s)
 	if (isEmptyStack(s))		// כאשר מחסנית ריקה חוזר אחד ו- יתקיים התנאי 
 	{
 		printf("the stack is empty\n");
-		exit(1);
+		return;
 	}
 
 	char res = s->head->data;			//  מחסנית לא ריקה, שליפת מידע, עדכון הטופ ושחרור מקום הראשון
@@ -178,52 +178,53 @@ int isPalindrome(Stack* s)
 
 void rotateStack(Stack* s, int n)
 {
-	if ((isEmptyStack(&s))); return;
-	if (n < 0 || n>(LongOfWord(&s)))return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
 	
+	if (isEmptyStack(&s)) return;
 
-	Stack helpstack, helpstack2, finalStack;    //מחסניות עזר לחלקי מילה
-	
+	Stack helpstack, helpstack2, finalStack; //מחסניות עזר לחלקי מילה
 	initStack(&helpstack);
 	initStack(&helpstack2);
 	finalStack.head = s->head;
-	int partLeft =((LongOfWord(&s))-n);
+	int LongWord = LongOfWord(&finalStack);
+	if (n < 0 || n>LongWord)return; //ממשיך רק אם חיובי וקטן מאורך המחסנית
+	else
+	{
+		
+		int partLeft = ((LongWord) - n);
 
-	for (partLeft; partLeft > 0; partLeft--)
-	{
-		push(&helpstack, (pop(&finalStack))); // שומר חלק פנימי של המילה
+		for (partLeft; partLeft >= 0; partLeft--)
+		{
+			push(&helpstack, (pop(&finalStack))); // שומר חלק פנימי של המילה
+		}
+		while (isEmptyStack( & finalStack)==0)//זה לא ריק
+		{
+			push(&helpstack2, (pop(&finalStack)));
+		}
+		while (isEmptyStack(&helpstack) == 0 ) // ראש אחר- במקום האני של המילה- ועד סוף המילה
+		{
+			push(&finalStack, (pop(&helpstack)));
+		}
+		while (isEmptyStack(&helpstack2) == 0)
+		{
+			push(&finalStack, (pop(&helpstack2)));
+		}
+		s->head = finalStack.head;
+		printf("the rotate stack is:\n");
+		PrintStack(s);
 	}
-	while (&finalStack)
-	{
-		push(&helpstack2, (pop(&finalStack)));
-	}
-	while (&helpstack) // ראש אחר- במקום האני של המילה- ועד סוף המילה
-	{
-		push(&finalStack, (pop(&helpstack)));
-	}
-	while (&helpstack2)
-	{
-		push(&finalStack, (pop(&helpstack2)));
-	}
-	s->head = finalStack.head;
-	printf("the rotate stack is:\n");
-	PrintStack(&s);
 }
 
 int LongOfWord(Stack* s)
 {
 	int count = 1; //לפחות איבר אחד במילה. אם זה אפס זה לא מגיע לפה... 
-	Stack* Top = (Stack*)malloc(sizeof(Stack));    //מחסניות עזר
-	if (Top == NULL) //בדיאה אם ההקצאה נכשלה
+	Stack Top;
+	initStack(&Top);
+	Top.head = s->head;
+	while ((Top.head->next))	//אורך מילה		
 	{
-		printf("no memory!!\n");
-		return;
-	};
-	Top->head = s->head;
-	while (Top->head->next)	//אורך מילה		
-	{
+		Top.head = Top.head->next;
 		count++;
-		Top->head = Top->head->next;
 	}
+	Top.head = s->head;
 	return (count);
 }
