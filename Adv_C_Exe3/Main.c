@@ -137,9 +137,10 @@ to delete word from top stack choose 7\n to exit choose 8\n");
 void mainOFqueue()
 {
 	Queue myQueue;
+	initQueue(&myQueue);
 	while (1)
 	{
-		printf("to create \ add queue choose 1\n to delete queue choose 2\n \
+		printf("\nto add data to queue choose 1\n to delete queue choose 2\n \
  to delete first valu choose 3\n to rotate choose 4\n \
  to cut and replace choose 5\n to sort queue choose 6\n to print queue choose 7\n to exit choose 8\n");
 		int yuserSelt;
@@ -149,15 +150,12 @@ void mainOFqueue()
 		{
 		case 1:
 		{
-			if (isEmptyQueue(&myQueue))
-				initQueue(&myQueue);
-			else
-			{
-				printf("choose data to add");
+			
+				printf("choose data to add\n");
 				unsigned data;
 				scanf("%d",&data);
 				enqueue(&myQueue , data);
-			}
+			
 			break;
 		}
 		case 2:

@@ -15,10 +15,10 @@ void initQueue(Queue* q)
 
 void destroyQueue(Queue* q) //שחרור הזיכרון הדינאמי שמנוהל ע"י המבנה המנהל של התור
 {
-	
+	unsigned int noMetherHold;
 	while (!isEmptyQueue(q)) 
-		dequeue(q);
-	free(q);
+		noMetherHold=dequeue(q);//מוציא ערך ומוחק איבר ראשון
+	//free(&q);
 }
 
 void enqueue(Queue* q, unsigned int data)
@@ -37,7 +37,7 @@ void enqueue(Queue* q, unsigned int data)
 	}
 	else
 	{
-		printf("allocation failed!!");
+		printf("allocation failed!!\n");
 		return;
 	}
 }
@@ -46,7 +46,7 @@ unsigned int dequeue(Queue* q)
 {
 
 	if (isEmptyQueue(q)) {
-		printf("is Empty");
+		printf("is Empty\n");
 		return 0;
 	}
 	int hold = q->head->data;  //שומרת ערך להחזרה
@@ -152,7 +152,7 @@ void cutAndReplace(Queue* q)  // לטפל בקוד
 	int c = 0;
 	int x = 0;
 	if (isEmptyQueue(q)) {
-		printf("Empty queue!");
+		printf("Empty queue!\n");
 		return;
 	}
 	while (!isEmptyQueue(q)) {
