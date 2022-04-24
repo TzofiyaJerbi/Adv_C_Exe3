@@ -28,7 +28,7 @@ void PrintStack(Stack* s);
 
 void main()
 {
-
+	
 	int yuserSelt;
 	char d;
 	Stack* dugma;
