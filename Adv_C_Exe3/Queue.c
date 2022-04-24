@@ -72,30 +72,11 @@ int isEmptyQueue(const Queue* q)
 void rotateQueue(Queue* q) // לטפל בקוד
 {
 
-
-	//Queue s1, s2;
-	//initQueue(&s1);
-	//initQueue(&s2);
-	//while (!isEmptyQueue(q)) {
-	//	while (!isEmptyQueue(&s1)) {
-	//		enqueue(&s2, dequeue(&s1));
-	//	}
-	//	enqueue(&s1, dequeue(s));
-	//	while (!isEmptyQueue(&s2)) {
-	//		enqueue(&s1, dequeue(&s2));
-	//	}
-	//}
-	//while (!isEmptyQueue(&s1)) {
-	//	enqueue(q, dequeue(&s1));
-	//}
-
-
 	Queue TmpQueue1;//תור עזר1
 	Queue TmpQueue2;//תור עזר 2
 	initQueue(&TmpQueue1);//אתחול התור עזר
 	initQueue(&TmpQueue2);//אתחול התור עזר2
-	//int res;//משתנה שנשמור בו את הערך שמוציאים
-
+	
 	while (!(isEmptyQueue(q)))//כל עוד התור לא ריק
 	{
 		while (!(isEmptyQueue(&TmpQueue1)))
@@ -108,76 +89,46 @@ void rotateQueue(Queue* q) // לטפל בקוד
 		{
 			enqueue(&TmpQueue1, dequeue(&TmpQueue2));
 		}
-		//res = dequeue(q);//הוצאת איבר ושמירת ערכו במשתנה
-		//if (isEmptyQueue (q))//בדיקה אם הגענו לאיבר האחרון ואם כן אז נכנסים
-		//{
-		//	enqueue (&TmpQueue2, res);//השמת האיבר האחרון בתור עזר השני
-			//break;//הגענו לסוף אז נצא
-		//}
-
-		//enqueue(&TmpQueue1, res);//מכניסים את הערכים לתור עזר 1
-
+		
 	}
-	//קבלת התור החדש
 
 	while (!isEmptyQueue(&TmpQueue1))//הוצאת הערכים מתור עזר 1 והשמתם במקור
 	{
 		enqueue(q, dequeue(&TmpQueue1));
 
 	}
-
-	/*Queue s1, s2;
-	initQueue(&s1);
-	initQueue(&s2);
-	while (!isEmptyQueue(q)) {
-		while (!isEmptyQueue(&s1)) {
-			enqueue(&s2, dequeue(&s1));
-		}
-		enqueue(&s1, dequeue(s));
-		while (!isEmptyQueue(&s2)) {
-			enqueue(&s1, dequeue(&s2));
-		}
-	}
-	while (!isEmptyQueue(&s1)) {
-		enqueue(q, dequeue(&s1));
-	}*/
 }
 
 
 void cutAndReplace(Queue* q)  // לטפל בקוד
 {
-	Queue s1, s2;
-	initQueue(&s1);
-	initQueue(&s2);
-	int c = 0;
-	int x = 0;
+	Queue qu1, qu2;
+	initQueue(&qu1);
+	initQueue(&qu2);
+	int saizQ = 0;
+	int sum = 0;
 	if (isEmptyQueue(q)) {
 		printf("Empty queue!\n");
 		return;
 	}
-	while (!isEmptyQueue(q)) {
-		c++;
-		x += q->head->data;
-		enqueue(&s2, dequeue(q));
+	while (!isEmptyQueue(q)) {   //יש תןר קיים
+		saizQ++;
+		sum += q->head->data;
+		enqueue(&qu2, dequeue(q));
 	}
-	if (c % 2 != 0) {
-		x = x / c;
-		enqueue(&s2, x);
-		c++;
-		for (int i = 0; i < c / 2; i++)
-			enqueue(&s1, dequeue(&s2));
-		rotateQueue(&s2);
-		for (int i = 0; i < c / 2; i++)
-			enqueue(&s2, dequeue(&s1));
+	if (saizQ % 2 != 0) { //אי זוגי- מבצע
+		int ave = (sum / saizQ);
+		enqueue(&qu2, ave);//יכנס לסוף
+		saizQ++;//חייב להיות גודל זוגי
 	}
-	else {
-		for (int i = 0; i < c / 2; i++)
-			enqueue(&s1, dequeue(&s2));
-		rotateQueue(&s2);
-		for (int i = 0; i < c / 2; i++)
-			enqueue(&s2, dequeue(&s1));
-	}
-	printQueue(&s2);
+	
+		for (int i = 0; i < (saizQ / 2); i++)
+			enqueue(&qu1, dequeue(&qu2));
+		rotateQueue(&qu2);
+		for (int i = 0; i < (saizQ / 2); i++)
+			enqueue(&qu2, dequeue(&qu1));
+	
+	printQueue(&qu2);
 	
 }
 
